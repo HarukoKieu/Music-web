@@ -12,7 +12,6 @@ import adminRoute from "./routes/adminRoute.js";
 import songRoute from "./routes/songRoute.js";
 import albumRoute from "./routes/albumRoute.js";
 import statRoute from "./routes/statRoute.js";
-import { create } from "domain";
 
 dotenv.config();
 
@@ -54,14 +53,12 @@ app.use("/api/stats", statRoute);
 // error handler
 app.use((error, request, response, next) => {
   console.error(error);
-  response
-    .status(500)
-    .json({
-      message:
-        process.env.NODE_ENV === "production"
-          ? "Internal server error"
-          : error.message,
-    });
+  response.status(500).json({
+    message:
+      process.env.NODE_ENV === "production"
+        ? "Internal server error"
+        : error.message,
+  });
 });
 
 connectDB().then(() => {
