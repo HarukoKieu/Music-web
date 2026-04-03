@@ -1,5 +1,5 @@
 import { api } from "@/lib/axios.ts";
-import { useAuth } from "@clerk/react";
+import { useAuth } from "@clerk/clerk-react";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 const updateApiToken = (token: string | null) => {
