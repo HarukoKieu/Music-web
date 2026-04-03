@@ -26,7 +26,7 @@ const AuthCallbackPage = () => {
       }
     };
     syncUser();
-  }, []);
+  }, [isLoaded, user, navigate]);
   return (
     <div className="flex items-center justify-center w-full h-screen bg-black">
       <Card className="w-[90%] max-w-md bg-zinc-900 border-zinc-800">
