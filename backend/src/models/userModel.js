@@ -15,11 +15,6 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    displayName: {
-      type: String,
-      trim: true,
-    },
-
     clerkId: {
       type: String,
       required: true,

@@ -32,7 +32,6 @@ app.use(
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB file size limit
   }),
 );
-app.use(cookieParser());
 
 app.use(
   cors({

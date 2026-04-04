@@ -5,18 +5,18 @@ import { useEffect } from "react";
 import { api } from "../../lib/axios";
 import { useNavigate } from "react-router";
 const AuthCallbackPage = () => {
+  const { isLoaded, user } = useUser();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const syncUser = async () => {
-      const { isLoaded, user } = useUser();
-      const navigate = useNavigate();
       try {
         if (!isLoaded || !user) {
           return;
         }
         await api.post("/auth-callback", {
           id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          username: user.username,
           imgUrl: user.imageUrl,
         });
       } catch (error) {
