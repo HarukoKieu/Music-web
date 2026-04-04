@@ -2,13 +2,13 @@ import userModel from "../models/userModel.js";
 
 export const authCallBack = async (request, response, next) => {
   try {
-    const { id, username, imgUrl } = request.body;
+    const { id, firstName, lastName, imgUrl } = request.body;
 
     let user = await userModel.findOne({ clerkId: id });
     if (!user) {
       user = await userModel.create({
         clerkId: id,
-        username,
+        fullName: `${firstName} ${lastName}`,
         imgUrl,
       });
     }

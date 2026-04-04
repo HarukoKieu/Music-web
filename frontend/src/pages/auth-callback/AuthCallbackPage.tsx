@@ -1,22 +1,25 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { useUser } from "@clerk/clerk-react";
 import { Loader } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { api } from "../../lib/axios";
 import { useNavigate } from "react-router";
 const AuthCallbackPage = () => {
   const { isLoaded, user } = useUser();
   const navigate = useNavigate();
+  const syncAttempted = useRef(false);
 
   useEffect(() => {
     const syncUser = async () => {
+      if (!isLoaded || !user || syncAttempted.current) {
+        return;
+      }
       try {
-        if (!isLoaded || !user) {
-          return;
-        }
-        await api.post("/auth-callback", {
+        syncAttempted.current = true;
+        await api.post("/auth/callback", {
           id: user.id,
-          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
           imgUrl: user.imageUrl,
         });
       } catch (error) {
