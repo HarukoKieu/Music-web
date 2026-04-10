@@ -7,7 +7,7 @@ import { Outlet } from "react-router";
 import LeftSidebar from "./components/LeftSidebar";
 import FriendsActivity from "./components/FriendsActivity";
 import AudioPlayer from "./components/AudioPlayer";
-
+import PlaybackControls from "./components/PlaybackControls";
 import { useEffect, useState } from "react";
 
 const MainLayout = () => {
@@ -26,7 +26,7 @@ const MainLayout = () => {
   return (
     <div className="flex flex-col h-screen text-white bg-black">
       <ResizablePanelGroup
-        direction="horizontal"
+        orientation="horizontal"
         className="flex flex-1 h-full p-2 overflow-hidden"
       >
         <AudioPlayer />
@@ -62,6 +62,8 @@ const MainLayout = () => {
           </>
         )}
       </ResizablePanelGroup>
+
+      <PlaybackControls />
     </div>
   );
 };
