@@ -20,9 +20,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
     try {
       const response = await api.get("/admin/check");
       set({ isAdmin: response.data.admin });
-    } catch (error) {
-      console.error("Error checking admin status:", error);
-      set({ error: "Error checking admin status" });
+    } catch (error: any) {
+      set({ isAdmin: false, error: error.response.data.message });
     } finally {
       set({ isLoading: false });
     }
