@@ -24,10 +24,12 @@ const albumSchema = new mongoose.Schema(
       required: true,
     },
 
-    songs: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Song",
-    },
+    songs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Song",
+      },
+    ],
   },
   {
     timestamps: true, // automatically add createdAt and updatedAt fields

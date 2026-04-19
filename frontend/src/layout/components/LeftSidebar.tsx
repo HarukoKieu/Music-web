@@ -76,7 +76,7 @@ const LeftSidebar = () => {
                 >
                   <img
                     src={album.imgUrl}
-                    alt="Playlist img"
+                    alt="Playlist image"
                     className="flex-shrink-0 object-cover rounded-md size-12"
                   />
 
