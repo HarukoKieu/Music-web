@@ -16,8 +16,9 @@ const songSchema = new mongoose.Schema(
 
     album: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
+      default: null,
     },
 
     imgUrl: {

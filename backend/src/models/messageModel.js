@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema(
   {
-    sendId: {
+    senderId: {
       type: String,
       required: true,
       index: true,

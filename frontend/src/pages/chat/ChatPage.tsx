@@ -23,8 +23,6 @@ const ChatPage = () => {
     }
   }, [selectedUser, fetchMessages]);
 
-  console.log({ messages });
-
   return (
     <main className="h-full overflow-hidden rounded-lg bg-gradient-to-b from-zinc-800 to-zinc-900">
       <Topbar />

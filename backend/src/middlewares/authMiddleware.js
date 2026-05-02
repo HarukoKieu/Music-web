@@ -1,7 +1,7 @@
 import { clerkClient } from "@clerk/express";
 
 export const protectRoute = async (request, response, next) => {
-  if (!request.auth.userId) {
+  if (!request.auth || !request.auth.userId) {
     return response
       .status(401)
       .json({ message: "Unauthorized - you must be logged in" });

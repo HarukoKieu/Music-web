@@ -1,5 +1,6 @@
 import Song from "../models/songModel.js";
 import Album from "../models/albumModel.js";
+import cloudinary from "../libs/cloudinary.js"; // Thêm dòng này
 
 // helper function to upload files to cloudinary
 const uploadToCloudinary = async (file) => {
@@ -56,6 +57,10 @@ export const deleteSong = async (request, response, next) => {
   try {
     const { songId } = request.params;
     const song = await Song.findById(songId);
+
+    if (!song) {
+      return response.status(404).json({ message: "Song not found" });
+    }
 
     if (song.albumId) {
       await Album.findByIdAndUpdate(song.albumId, {

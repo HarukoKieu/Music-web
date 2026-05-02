@@ -13,7 +13,7 @@ import albumRoute from "./routes/albumRoute.js";
 import statRoute from "./routes/statRoute.js";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import fs from "fs";
+import fs from "fs/promises";
 import { createServer } from "http";
 import cron from "node-cron";
 import { initializeSocket } from "./libs/socket.js";
@@ -41,7 +41,6 @@ app.use(
 
 // Middleware
 app.use(express.json()); // Parse JSON request bodies
-app.use(clerkMiddleware());
 
 app.use(
   cors({
@@ -49,6 +48,8 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use(clerkMiddleware());
 
 app.use(
   fileUpload({

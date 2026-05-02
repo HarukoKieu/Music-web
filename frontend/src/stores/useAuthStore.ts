@@ -21,7 +21,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const response = await api.get("/admin/check");
       set({ isAdmin: response.data.admin });
     } catch (error: any) {
-      set({ isAdmin: false, error: error.response.data.message });
+      set({
+        isAdmin: false,
+        error: error.response?.data?.message ?? "Unauthorized",
+      });
     } finally {
       set({ isLoading: false });
     }
