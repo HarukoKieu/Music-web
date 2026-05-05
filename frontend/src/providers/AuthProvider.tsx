@@ -3,24 +3,16 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useChatStore } from "@/stores/useChatStore";
 import { useAuth } from "@clerk/clerk-react";
 import { Loader } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { getToken, userId, isLoaded } = useAuth();
+  const { getToken, userId } = useAuth();
   const { checkAdminStatus } = useAuthStore();
   const { initSocket, disconnectSocket } = useChatStore();
 
   const [loading, setLoading] = useState(true);
 
-  // Prevent multiple initializations (important in Strict Mode)
-  const initialized = useRef(false);
-
   useEffect(() => {
-    if (!isLoaded) return;
-
-    if (initialized.current) return;
-    initialized.current = true;
-
     const initAuth = async () => {
       try {
         /**
@@ -49,7 +41,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       disconnectSocket();
     };
-  }, [isLoaded, userId]);
+  }, [getToken, userId, checkAdminStatus, initSocket, disconnectSocket]);
 
   if (loading) {
     return (
