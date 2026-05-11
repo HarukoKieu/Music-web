@@ -7,34 +7,35 @@ export const api = axios.create({
       : "/api",
 });
 
-/**
- * Attach a request interceptor to dynamically inject the latest auth token.
- * This avoids stale tokens and removes the need for global mutable headers.
- */
+// ✅ FIX: Track interceptor ID để eject trước khi add mới
+let requestInterceptorId: number | null = null;
+let responseInterceptorId: number | null = null;
+
 export const attachTokenInterceptor = (
   getToken: () => Promise<string | null>,
 ) => {
-  api.interceptors.request.use(async (config) => {
-    const token = await getToken();
+  // Eject interceptors cũ nếu đã tồn tại, tránh tích lũy
+  if (requestInterceptorId !== null) {
+    api.interceptors.request.eject(requestInterceptorId);
+  }
+  if (responseInterceptorId !== null) {
+    api.interceptors.response.eject(responseInterceptorId);
+  }
 
+  requestInterceptorId = api.interceptors.request.use(async (config) => {
+    const token = await getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   });
 
-  /**
-   * Handle global response errors (e.g., expired token)
-   */
-  api.interceptors.response.use(
+  responseInterceptorId = api.interceptors.response.use(
     (response) => response,
     async (error) => {
       if (error.response?.status === 401) {
         console.warn("Unauthorized request - token may be expired");
-        // Optionally trigger logout or token refresh here
       }
-
       return Promise.reject(error);
     },
   );

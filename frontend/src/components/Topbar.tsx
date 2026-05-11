@@ -8,7 +8,6 @@ import { buttonVariants } from "./ui/button";
 
 const Topbar = () => {
   const { isAdmin } = useAuthStore();
-  console.log({ isAdmin });
 
   return (
     <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-zinc-900/75 backdrop-blur-md ">

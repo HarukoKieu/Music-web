@@ -11,7 +11,10 @@ export const protectRoute = async (request, response, next) => {
 
 export const requireAdmin = async (request, response, next) => {
   try {
-    const currentUser = await clerkClient.users.getUser(request.auth.userId);
+    const client = await clerkClient();
+
+    const currentUser = await client.users.getUser(request.auth.userId);
+
     const isAdmin =
       process.env.ADMIN_EMAIL === currentUser.primaryEmailAddress?.emailAddress;
 
@@ -20,6 +23,7 @@ export const requireAdmin = async (request, response, next) => {
         message: "Forbidden - you must be an admin",
       });
     }
+
     next();
   } catch (error) {
     console.error("Error while calling requireAdmin", error);

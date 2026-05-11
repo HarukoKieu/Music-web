@@ -6,24 +6,23 @@ import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { getToken, userId } = useAuth();
+  const { getToken, userId, isLoaded } = useAuth();
   const { checkAdminStatus } = useAuthStore();
   const { initSocket, disconnectSocket } = useChatStore();
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isLoaded) return;
+
     const initAuth = async () => {
       try {
-        /**
-         * Attach interceptor ONCE
-         */
         attachTokenInterceptor(getToken);
 
         const token = await getToken();
 
         if (token) {
-          await Promise.all([checkAdminStatus()]);
+          await checkAdminStatus();
 
           if (userId) {
             initSocket(userId);
@@ -32,6 +31,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } catch (error) {
         console.error("Auth provider error:", error);
       } finally {
+        // Bây giờ setLoading(false) chỉ chạy SAU KHI Clerk đã sẵn sàng
         setLoading(false);
       }
     };
@@ -41,7 +41,15 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       disconnectSocket();
     };
-  }, [getToken, userId, checkAdminStatus, initSocket, disconnectSocket]);
+  }, [
+    getToken,
+    userId,
+    isLoaded,
+    checkAdminStatus,
+    initSocket,
+    disconnectSocket,
+  ]);
+  //                    ^^^^^^^^ Thêm isLoaded vào dependency array
 
   if (loading) {
     return (

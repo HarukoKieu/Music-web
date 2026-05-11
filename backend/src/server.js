@@ -82,11 +82,9 @@ cron.schedule("0 * * * *", async () => {
   }
 });
 
-// Public routes
-app.use("/api/auth", authRoute);
-
 app.use("/api/users", userRoute);
 app.use("/api/admin", adminRoute);
+app.use("/api/auth", authRoute);
 app.use("/api/songs", songRoute);
 app.use("/api/albums", albumRoute);
 app.use("/api/stats", statRoute);
